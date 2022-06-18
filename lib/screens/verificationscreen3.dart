@@ -55,7 +55,7 @@ class _VerificationScreen3State extends State<VerificationScreen3> {
                 value: checkedValue,
                 onChanged: (newValue) {
                   setState(() {
-                    checkedValue = newValue;
+                    checkedValue = newValue!;
                   });
                 },
                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox

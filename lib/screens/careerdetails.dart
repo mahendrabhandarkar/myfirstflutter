@@ -36,7 +36,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
         'employ':employ,
         'occupation':occupation,
         'income':income
-      },merge: true);
+      });
       Navigator.pop(context);
       if(widget.navigate==false){
         await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>SocialDetails(false)));
@@ -45,7 +45,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
       }
 
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(e), duration: Duration(milliseconds: 300), ), );
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(e.toString()), duration: Duration(milliseconds: 300), ), );
     }
   }
 
@@ -120,7 +120,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
       ]),
     );
   }
-  Widget _education(BuildContext context,List<dynamic>h){
+  Widget? _education(BuildContext context,List<dynamic>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -138,7 +138,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
                   },
                     trailing:Radio(value: index, groupValue:cvalue, onChanged: (val){
                       setState(() {
-                        cvalue=val;
+                        cvalue=val.toString() as int;
                       });
                     }),),
                   Divider()
@@ -167,7 +167,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -178,7 +178,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
           );
         });
   }
-  Widget _occupation(BuildContext context,List<String>h){
+  Widget? _occupation(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -196,7 +196,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -207,7 +207,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
           );
         });
   }
-  Widget _income(BuildContext context,List<dynamic>h){
+  Widget? _income(BuildContext context,List<dynamic>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -225,7 +225,7 @@ class _CarrerDetailsState extends State<CarrerDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()

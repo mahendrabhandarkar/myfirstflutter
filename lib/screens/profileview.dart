@@ -33,21 +33,21 @@ class _ProfileViewState extends State<ProfileView> {
     try{
       reference.doc(user.uid).get().then((onValue){
         setState(() {
-          profile=onValue.data['profile'];
-          number=onValue.data['number'];
-          religion=onValue.data['religion'];
-          cast=onValue.data['cast'];
-          gender=onValue.data['gender'];
-          dob=onValue.data['dob'];
-          occupation=onValue.data['occupation'];
-          height='${onValue.data['height']} feet';
-          country=onValue.data['country'];
-          education=onValue.data['education'];
-          income='${onValue.data['income']} lac';
-          employ=onValue.data['employ'];
-          mangalik=onValue.data['mangalik'];
-          maritual=onValue.data['marital'];
-          hroscope=onValue.data['horoscope'];
+          profile=(onValue.data as Map)['profile'];
+          number=(onValue.data as Map)['number'];
+          religion=(onValue.data as Map)['religion'];
+          cast=(onValue.data as Map)['cast'];
+          gender=(onValue.data as Map)['gender'];
+          dob=(onValue.data as Map)['dob'];
+          occupation=(onValue.data as Map)['occupation'];
+          height='${(onValue.data as Map)['height']} feet';
+          country=(onValue.data as Map)['country'];
+          education=(onValue.data as Map)['education'];
+          income='${(onValue.data as Map)['income']} lac';
+          employ=(onValue.data as Map)['employ'];
+          mangalik=(onValue.data as Map)['mangalik'];
+          maritual=(onValue.data as Map)['marital'];
+          hroscope=(onValue.data as Map)['horoscope'];
         });
       });
     }catch(e){
@@ -132,7 +132,7 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
-  ListTile _buildExperienceRow({String company, String position,Icon icon}) {
+  ListTile _buildExperienceRow({required String company, required String position}) {
     return ListTile(
       title: Text(company, style: TextStyle(
         color: Colors.black,

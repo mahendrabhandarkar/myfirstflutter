@@ -16,8 +16,8 @@ class PicUpload extends StatefulWidget {
 class _PicUploadState extends State<PicUpload> {
 
   final GlobalKey<ScaffoldState> _myGlobe = GlobalKey<ScaffoldState>();
-  File image;
-  String url;
+  late File image;
+  late String url;
 
   Future _upload()async{
     User user=await FirebaseAuth.instance.currentUser!;
@@ -26,21 +26,19 @@ class _PicUploadState extends State<PicUpload> {
         child: CircularProgressIndicator(backgroundColor: Colors.orange,),
       );
     }, barrierDismissible: false);
-    StorageReference ref = FirebaseStorage.instance.ref().child("UserProfiles").child(user.uid);
+    Reference ref = FirebaseStorage.instance.ref().child("UserProfiles").child(user.uid);
     final task = ref.putFile(image);
-    await task.onComplete;
+   // await task.onComplete;
     url = await ref.getDownloadURL();
     CollectionReference reference=FirebaseFirestore.instance.collection("Users");
     try{
       await reference.doc(user.uid).set({
         'profile':url,
-      },merge: true);
+      });
       Navigator.pop(context);
       await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>PersonalDetails(false)));
     }catch(e){
-      _myGlobe.currentState.showSnackBar(SnackBar(
-          content: Text(e),
-          duration: Duration(seconds: 2)));
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(e.toString()), duration: Duration(milliseconds: 300), ), );
     }
   }
   @override
@@ -88,7 +86,7 @@ class _PicUploadState extends State<PicUpload> {
                       if(image!=null){
                         _upload();
                       }else{
-                        _myGlobe.currentState.showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Please provide profile image"),
                             duration: Duration(seconds: 2)));
                       }
@@ -168,10 +166,10 @@ class _PicUploadState extends State<PicUpload> {
     ));
   }
   _camera()async{
-   final img = await ImagePicker.pickImage(source: ImageSource.camera, maxWidth: 512, maxHeight: 512, imageQuality: 80);
+   final img = await ImagePicker.platform.getImage(source: ImageSource.camera, maxWidth: 512, maxHeight: 512, imageQuality: 80);
     if(img!=null){
       setState(() {
-        image=img;
+        image=img as File;
       });
       Navigator.pop(context);
     }
@@ -179,15 +177,15 @@ class _PicUploadState extends State<PicUpload> {
 
   _gallery() async{
     try{
-      final img = await ImagePicker.pickImage(source: ImageSource.gallery, maxWidth: 512, maxHeight: 512, imageQuality: 80);
+      final img = await ImagePicker.platform.getImage(source: ImageSource.gallery, maxWidth: 512, maxHeight: 512, imageQuality: 80);
       if(img!=null){
         setState(() {
-          image=img;
+          image=img as File;
         });
         Navigator.pop(context);
       }
     }catch(e){
-      _myGlobe.currentState.showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
 
   }
@@ -199,8 +197,8 @@ class EditPic extends StatefulWidget {
 
 class _EditPicState extends State<EditPic> {
   final GlobalKey<ScaffoldState> _myGlobe = GlobalKey<ScaffoldState>();
-  File image;
-  String url;
+  late File image;
+  late String url;
 
   Future _upload()async{
     User user=await FirebaseAuth.instance.currentUser!;
@@ -209,20 +207,20 @@ class _EditPicState extends State<EditPic> {
         child: CircularProgressIndicator(backgroundColor: Colors.orange,),
       );
     }, barrierDismissible: false);
-    StorageReference ref = FirebaseStorage.instance.ref().child("UserProfiles").child(user.uid);
+    Reference ref = FirebaseStorage.instance.ref().child("UserProfiles").child(user.uid);
     final task = ref.putFile(image);
-    await task.onComplete;
+ //   await task.onComplete;
     url = await ref.getDownloadURL();
     CollectionReference reference=FirebaseFirestore.instance.collection("Users");
     try{
       await reference.doc(user.uid).set({
         'profile':url,
-      },merge: true);
+      });
       Navigator.pop(context);
       await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Home()));
     }catch(e){
-      _myGlobe.currentState.showSnackBar(SnackBar(
-          content: Text(e),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(e.toString()),
           duration: Duration(seconds: 2)));
     }
   }
@@ -271,7 +269,7 @@ class _EditPicState extends State<EditPic> {
                       if(image!=null){
                         _upload();
                       }else{
-                        _myGlobe.currentState.showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Please provide profile image"),
                             duration: Duration(seconds: 2)));
                       }
@@ -351,10 +349,10 @@ class _EditPicState extends State<EditPic> {
     ));
   }
   _camera()async{
-    final img = await ImagePicker.pickImage(source: ImageSource.camera, maxWidth: 512, maxHeight: 512, imageQuality: 80);
+    final img = await ImagePicker.platform.getImage(source: ImageSource.camera, maxWidth: 512, maxHeight: 512, imageQuality: 80);
     if(img!=null){
       setState(() {
-        image=img;
+        image=img as File;
       });
       Navigator.pop(context);
     }
@@ -362,15 +360,15 @@ class _EditPicState extends State<EditPic> {
 
   _gallery() async{
     try{
-      final img = await ImagePicker.pickImage(source: ImageSource.gallery, maxWidth: 512, maxHeight: 512, imageQuality: 80);
+      final img = await ImagePicker.platform.getImage(source: ImageSource.gallery, maxWidth: 512, maxHeight: 512, imageQuality: 80);
       if(img!=null){
         setState(() {
-          image=img;
+          image=img as File;
         });
         Navigator.pop(context);
       }
     }catch(e){
-      _myGlobe.currentState.showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
 
   }

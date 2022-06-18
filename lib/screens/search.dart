@@ -8,14 +8,14 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
 
-  String dropDownValue;
-  String maxage;
-  String minheight;
-  String maxheight;
-  String min;
-  String max;
-  String religion;
-  String cast;
+  String? dropDownValue;
+  String? maxage;
+  String? minheight;
+  String? maxheight;
+  String? min;
+  String? max;
+  String? religion;
+  String? cast;
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(automaticallyImplyLeading: false,
@@ -43,7 +43,7 @@ class _SearchState extends State<Search> {
                           ),
                           onChanged: (newValue) {
                             setState(() {
-                              dropDownValue = newValue;
+                              dropDownValue = newValue.toString();
                             });
                           },
                           items:[
@@ -76,7 +76,7 @@ class _SearchState extends State<Search> {
                           ),
                           onChanged: (newValue) {
                             setState(() {
-                              maxage = newValue;
+                              maxage = newValue.toString();
                             });
                           },
                           items:[
@@ -112,7 +112,7 @@ class _SearchState extends State<Search> {
                           ),
                           onChanged: (newValue) {
                             setState(() {
-                              minheight = newValue;
+                              minheight = newValue.toString();
                             });
                           },
                           items:[
@@ -145,7 +145,7 @@ class _SearchState extends State<Search> {
                           ),
                           onChanged: (newValue) {
                             setState(() {
-                              maxheight = newValue;
+                              maxheight = newValue.toString();
                             });
                           },
                           items:[
@@ -174,7 +174,7 @@ class _SearchState extends State<Search> {
                       style: TextStyle(color: Colors.deepPurple),
                       onChanged: (newValue) {
                         setState(() {
-                          religion = newValue;
+                          religion = newValue.toString();
                         });
                       },
                       items: Data().religion.map((f) {
@@ -191,7 +191,7 @@ class _SearchState extends State<Search> {
                       style: TextStyle(color: Colors.deepPurple),
                       onChanged: (newValue) {
                         setState(() {
-                          cast = newValue;
+                          cast = newValue.toString();
                         });
                       },
                       items: Data().religion.map((f) {
@@ -215,7 +215,7 @@ class _SearchState extends State<Search> {
                           ),
                           onChanged: (newValue) {
                             setState(() {
-                              min = newValue;
+                              min = newValue.toString();
                             });
                           },
                           items:[
@@ -247,7 +247,7 @@ class _SearchState extends State<Search> {
                           ),
                           onChanged: (newValue) {
                             setState(() {
-                              max = newValue;
+                              max = newValue.toString();
                             });
                           },
                           items:[

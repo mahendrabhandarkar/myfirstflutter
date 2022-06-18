@@ -18,20 +18,20 @@ class _Search2State extends State<Search2> {
     CollectionReference reference=FirebaseFirestore.instance.collection("Users");
     CollectionReference collectionReference=FirebaseFirestore.instance.collection('Requests');
     try{
-      QuerySnapshot querySnapshot=await reference.getDocuments();
-      QuerySnapshot snapshot=await collectionReference.where('from',isEqualTo: _user.uid).getDocuments();
+      QuerySnapshot querySnapshot=await reference.get();
+      QuerySnapshot snapshot=await collectionReference.where('from',isEqualTo: _user.uid).get();
       querySnapshot.docs.map((f){
         if(snapshot.docs.length>0){
           snapshot.docs.map((value){
-            if(f.data['uid']==value.data['to']){
+            if((f.data as Map)['uid']==(value.data as Map)['to']){
               setState(() {
-                p.add(Users(f.data['name'], '${f.data['age'].toString()} years', f.data['religion'], f.data['country'], value.data['status'],f.data['profile'],f.data['uid']));
+                p.add(Users((f.data as Map)['name'], '${(f.data as Map)['age'].toString()} years', (f.data as Map)['religion'], (f.data as Map)['country'], (value.data as Map)['status'],(f.data as Map)['profile'],(f.data as Map)['uid']));
                 users=List.from(p);
               });
             }
             else{
               setState(() {
-                p.add(Users(f.data['name'], '${f.data['age']} years', f.data['religion'], f.data['country'], 'NON',f.data['profile'],f.data['uid']));
+                p.add(Users((f.data as Map)['name'], '${(f.data as Map)['age']} years', (f.data as Map)['religion'], (f.data as Map)['country'], 'NON',(f.data as Map)['profile'],(f.data as Map)['uid']));
                 users=List.from(p);
               });
             }
@@ -39,7 +39,7 @@ class _Search2State extends State<Search2> {
         }
         else{
           setState(() {
-            p.add(Users(f.data['name'], '${f.data['age']} years', f.data['religion'], f.data['country'], 'NON',f.data['profile'],f.data['uid']));
+            p.add(Users((f.data as Map)['name'], '${(f.data as Map)['age']} years', (f.data as Map)['religion'], (f.data as Map)['country'], 'NON',(f.data as Map)['profile'],(f.data as Map)['uid']));
             users=List.from(p);
           });
         }
@@ -81,7 +81,7 @@ class _Search2State extends State<Search2> {
                     width:  MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height*0.82,
                     fit: BoxFit.cover,
-                    frameBuilder: (BuildContext context, Widget child, int frame, bool wasSynchronouslyLoaded) {
+                    frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
                       if (wasSynchronouslyLoaded || frame != null) {
                         return Container(
                           child:child,
@@ -122,7 +122,7 @@ class _Search2State extends State<Search2> {
                         child:RaisedButton(
                           onPressed: (){
                             if(f.status=='REQUESTED'||f.status=='ACCEPTED'){
-                              _myGlobe.currentState.showSnackBar(SnackBar(content: Text('You have already ${f.status}')));
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You have already ${f.status}')));
                             }
                             else{
                               setState(() {
@@ -168,10 +168,10 @@ class _Search2State extends State<Search2> {
         'id':DateTime.now().millisecondsSinceEpoch.toString(),
         'status':'REQUESTED'
       };
-      reference.doc(v['id']).set(v,merge: true);
-      _myGlobe.currentState.showSnackBar(SnackBar(content: Text('Request has send')));
+      reference.doc(v['id']).set(v, SetOptions(merge: true,));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Request has send')));
     }catch(e){
-      _myGlobe.currentState.showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 }

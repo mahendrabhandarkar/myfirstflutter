@@ -8,7 +8,7 @@ class VerificationScreen2 extends StatefulWidget {
 
 class _VerificationScreen2State extends State<VerificationScreen2> {
 
-  int card;
+  late int card;
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Container(color: Colors.black87,width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height,
@@ -44,7 +44,7 @@ class _VerificationScreen2State extends State<VerificationScreen2> {
               Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Radio(hoverColor: Colors.white,activeColor: Colors.white,value: 1, groupValue: card, onChanged: (val){
-                    card=val;
+                    card=int.parse(val.toString());
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>VerificationScreen3('Aadhar')));
                     setState(() {
 
@@ -56,7 +56,7 @@ class _VerificationScreen2State extends State<VerificationScreen2> {
               Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Radio(hoverColor: Colors.white,activeColor: Colors.white,value: 2, groupValue: card, onChanged: (val){
-                    card=val;
+                    card=int.parse(val.toString());
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>VerificationScreen3('Pan')));
                     setState(() {
 

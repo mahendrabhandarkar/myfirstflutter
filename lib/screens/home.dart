@@ -7,7 +7,7 @@ import 'package:myfirstflutter/screens/profileview.dart';
 import 'package:myfirstflutter/screens/search2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fa;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,13 +17,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String image;
+  String? image;
   Future _get() async{
-    User user=await FirebaseAuth.instance.currentUser!;
+    fa.User? user=await fa.FirebaseAuth.instance.currentUser!;
     CollectionReference reference=FirebaseFirestore.instance.collection("Users");
     await reference.doc(user.uid).get().then((onValue){
       setState(() {
-        image=onValue.data['profile'];
+        image=(onValue.data as Map)['profile'];
       });
     });
 
@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
                           child: image!=null?ClipRRect(
                             borderRadius: BorderRadius.circular(90),
                             child: CachedNetworkImage(
-                              imageUrl: image, width: 110, height:110, fit: BoxFit.cover,
+                              imageUrl: image.toString(), width: 110, height:110, fit: BoxFit.cover,
                             ),
                           ):CircleAvatar(
                             radius: 45, backgroundColor: Colors.white,
@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       Text("Space for new update"),
                       RaisedButton.icon(onPressed: (){
-                        FirebaseAuth auth=FirebaseAuth.instance;
+                        fa.FirebaseAuth auth=fa.FirebaseAuth.instance;
                         auth.signOut();
                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>LogIn()));
 

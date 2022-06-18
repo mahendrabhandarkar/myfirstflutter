@@ -16,13 +16,13 @@ PersonalDetails(this.navigate);
 
 class _PersonalDetailsState extends State<PersonalDetails> {
   String gender='male';
-  String dob;
-  double height;
-  String country;
+  late String dob;
+  late double height;
+  late String country;
   List<double>h=Data().height;
   List<String>c=Data().country;
-  int hvalue;
-  int cvalue;
+  late int hvalue;
+  late int cvalue;
   final GlobalKey<ScaffoldState> _myGlobe = GlobalKey<ScaffoldState>();
 
   Future _upload()async{
@@ -39,7 +39,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
         'dob':dob,
         'height':height,
         'country':country
-      },merge: true);
+      });
       Navigator.pop(context);
       if(widget.navigate==false){
         await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>CarrerDetails(false)));
@@ -48,9 +48,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
       }
 
     }catch(e){
-      _myGlobe.currentState.showSnackBar(SnackBar(
-          content: Text(e),
-          duration: Duration(seconds: 2)));
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(e.toString()), duration: Duration(milliseconds: 300), ), );
     }
   }
 
@@ -133,7 +131,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   firstDate:DateTime(1950), lastDate:DateTime.now()).then((onValue){
                     print(onValue);
                     setState(() {
-                      dob=DateFormat.yMMMd('en_US').format(onValue);
+                      dob=DateFormat.yMMMd('en_US').format(onValue!);
                     });
                   });
              },),
@@ -163,7 +161,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
 
                   }else{
-                    _myGlobe.currentState.showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text("Please provide above information"),
                         duration: Duration(seconds: 2)));
                   }
@@ -186,7 +184,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
       ],),
     );
   }
-  Widget _listPopup(BuildContext context,List<double>h){
+  Widget? _listPopup(BuildContext context,List<double>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -204,7 +202,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     },
                       trailing:Radio(value: index, groupValue: hvalue, onChanged: (val){
                         setState(() {
-                          hvalue=val;
+                          hvalue=int.parse(val.toString());
                         });
                       }),),
                     Divider()
@@ -216,7 +214,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
         }
     );
   }
-  Widget _country(BuildContext context,List<String>h){
+  Widget? _country(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -234,7 +232,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       },
                         trailing:Radio(value: index, groupValue:cvalue, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=int.parse(val.toString());
                           });
                         }),),
                       Divider()

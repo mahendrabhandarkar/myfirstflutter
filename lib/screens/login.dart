@@ -30,12 +30,12 @@ class _LogInState extends State<LogIn> {
   }
   Future _phoneVerify()async{
     CollectionReference reference=FirebaseFirestore.instance.collection("Users");
-    QuerySnapshot querySnapshot=await reference.where('number',isEqualTo: number.text).getDocuments();
+    QuerySnapshot querySnapshot=await reference.where('number',isEqualTo: number.text).get();
     bool have=querySnapshot.docs.isNotEmpty;
     if(have==true){
       verifyPhone();
     }else{
-      _myGlobe.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Your not a existing user with us'),
           duration: Duration(seconds: 2)));
     }
@@ -44,7 +44,7 @@ class _LogInState extends State<LogIn> {
   String _phone = "";
   String _countryCode = "+91";
   String _smsCode = "";
-  String _verificationId;
+  late String _verificationId;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> verifyPhone() async {
@@ -66,7 +66,7 @@ class _LogInState extends State<LogIn> {
           }
         });
       };
-      final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+      final PhoneCodeSent smsCodeSent = (String verId, [int? forceCodeResend]) {
         setState(() {
           this._verificationId = verId;
           if (_verificationId != null) {
@@ -88,16 +88,16 @@ class _LogInState extends State<LogIn> {
                     LoginOtp(_verificationId, _phone)));
           }
         });
-        _myGlobe.currentState.showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Verify yoour number")));
       };
 
       final PhoneVerificationFailed verificationFailed =
-          (AuthException exception) {
+          (FirebaseAuthException exception) {
             Navigator.pop(context);
-        _myGlobe.currentState.showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-                exception.message)));
+                exception.message.toString())));
         print('${exception.message}');
       };
 
@@ -121,7 +121,7 @@ class _LogInState extends State<LogIn> {
       });
     }catch(e){
       Navigator.pop(context);
-      _myGlobe.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(e.toString())));
 
     }
@@ -222,7 +222,7 @@ class _LogInState extends State<LogIn> {
                         });
 
                       }else{
-                        _myGlobe.currentState.showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Please provide a valid phone number"),
                             duration: Duration(seconds: 2)));
                       }

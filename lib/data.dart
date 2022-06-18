@@ -109,7 +109,7 @@ class Data{
     'Israel',
     'Italy'
   ];
-  List<String>occupation=[
+  List<String> occupation=[
     'Architecture&Engineering',
     'Building&Grounds Maintenance',
     'Business',

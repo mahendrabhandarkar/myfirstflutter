@@ -32,7 +32,7 @@ class _VerificationScreen1State extends State<VerificationScreen1> {
                       Row(
                         children: <Widget>[
                           Radio(hoverColor: Colors.white,activeColor: Colors.white,value: 1, groupValue: receive, onChanged: (val){
-                            receive=val;
+                            receive=int.parse(val.toString());
                             setState(() {
 
                             });
@@ -43,7 +43,7 @@ class _VerificationScreen1State extends State<VerificationScreen1> {
                       Row(
                         children: <Widget>[
                           Radio(hoverColor: Colors.white,activeColor: Colors.white,value: 2, groupValue: receive, onChanged: (val){
-                            receive=val;
+                            receive=int.parse(val.toString());
                             setState(() {
 
                             });
@@ -70,7 +70,7 @@ class _VerificationScreen1State extends State<VerificationScreen1> {
                       Row(
                         children: <Widget>[
                           Radio(hoverColor: Colors.white,activeColor: Colors.white,value: 1, groupValue: video, onChanged: (val){
-                            video=val;
+                            video=int.parse(val.toString());
                             setState(() {
 
                             });
@@ -81,7 +81,7 @@ class _VerificationScreen1State extends State<VerificationScreen1> {
                       Row(
                         children: <Widget>[
                           Radio(hoverColor: Colors.white,activeColor: Colors.white,value: 2, groupValue: video, onChanged: (val){
-                            video=val;
+                            video=int.parse(val.toString());
                             setState(() {
 
                             });

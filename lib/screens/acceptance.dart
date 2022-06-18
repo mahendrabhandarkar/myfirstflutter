@@ -258,7 +258,7 @@ class _AcceptanceState extends State<Acceptance> {
     User user= (await FirebaseAuth.instance.currentUser!) as User;
     CollectionReference reference=FirebaseFirestore.instance.collection('Requests');
     try{
-      reference.doc(id).set({'status':'ACCEPTED'},merge: true);
+      reference.doc(id).set({'status':'ACCEPTED'});
       setState(() {
         p.clear();
         users.clear();

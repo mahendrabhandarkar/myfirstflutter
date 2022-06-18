@@ -11,13 +11,13 @@ class Family extends StatefulWidget {
 class _FamilyState extends State<Family> {
 
 
-  String occupation;
-  String moccupation;
-  int income;
-  String brother;
-  String sister;
-  String living;
-  Map<String,dynamic>family;
+  String? occupation;
+  String? moccupation;
+  int? income;
+  String? brother;
+  String? sister;
+  String? living;
+  Map<String,dynamic>?family;
   final GlobalKey<ScaffoldState> _myGlobe = GlobalKey<ScaffoldState>();
   Future _get()async{
     User user=await FirebaseAuth.instance.currentUser!;
@@ -25,12 +25,12 @@ class _FamilyState extends State<Family> {
     try{
       reference.doc(user.uid).get().then((onValue){
         setState(() {
-          moccupation=onValue.data['family']['moccupation'];
-          occupation=onValue.data['family']['foccupation'];
-          brother=onValue.data['family']['brother'];
-          sister=onValue.data['family']['sister'];
-          income=onValue.data['family']['fincome'];
-          living=onValue.data['family']['living'];
+          moccupation=(onValue.data as Map)['family']['moccupation'];
+          occupation=(onValue.data as Map)['family']['foccupation'];
+          brother=(onValue.data as Map)['family']['brother'];
+          sister=(onValue.data as Map)['family']['sister'];
+          income=(onValue.data as Map)['family']['fincome'];
+          living=(onValue.data as Map)['family']['living'];
         });
       });
     }catch(e){
@@ -49,7 +49,7 @@ class _FamilyState extends State<Family> {
     try{
       reference.doc(user.uid).set({
         'family':family
-      },merge: true);
+      });
       Navigator.pop(context);
     }catch(e){
       Navigator.pop(context);
@@ -76,28 +76,28 @@ class _FamilyState extends State<Family> {
                 child:ListView(scrollDirection: Axis.vertical,physics: ScrollPhysics(),
                     children: <Widget>[
                       ListTile(title: Text('Father Occupation'),
-                        subtitle:occupation==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(occupation),
+                        subtitle:occupation==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(occupation.toString()),
                         trailing: Icon(Icons.navigate_next,size: 45,color: Colors.black),
                         onTap: (){
                           _occupation(context, Data().occupation);
                         },),
                       Divider(),
                       ListTile(title: Text("Mother Occupation"),
-                        subtitle: moccupation==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(moccupation),
+                        subtitle: moccupation==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(moccupation.toString()),
                         trailing: Icon(Icons.navigate_next,size: 45,color: Colors.black),
                         onTap: (){
                           _moccupation(context, Data().moccupation);
                         },),
                       Divider(),
                       ListTile(title: Text("Brother(s)"),
-                        subtitle:brother==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(brother),
+                        subtitle:brother==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(brother.toString()),
                         trailing: Icon(Icons.navigate_next,size: 45,color: Colors.black),
                         onTap: (){
                           _bcount(context, Data().brothers);
                         },),
                       Divider(),
                       ListTile(title: Text("Sister(s)"),
-                        subtitle:sister==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(sister),
+                        subtitle:sister==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(sister.toString()),
                         trailing: Icon(Icons.navigate_next,size: 45,color: Colors.black),
                         onTap: (){
                           _ccount(context, Data().brothers);
@@ -111,7 +111,7 @@ class _FamilyState extends State<Family> {
                         },),
                       Divider(),
                       ListTile(title: Text("Living With Parents?"),
-                        subtitle:living==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(living),
+                        subtitle:living==null?Text("Not filled",style: TextStyle(color:Colors.red),):Text(living.toString()),
                         trailing: Icon(Icons.navigate_next,size: 45,color: Colors.black),
                         onTap: (){
                           _living(context, Data().living);
@@ -120,7 +120,7 @@ class _FamilyState extends State<Family> {
                     ])),
             Positioned(top: MediaQuery.of(context).size.height*0.81,
               child: Container(width: MediaQuery.of(context).size.width,height:60,
-                  child:RaisedButton(
+                  child:ElevatedButton(
                     onPressed: (){
                       if(occupation!=null&&moccupation!=null&&brother!=null&&sister!=null&&income!=null&&living!=null){
                         setState(() {
@@ -136,12 +136,11 @@ class _FamilyState extends State<Family> {
                         });
 
                       }else{
-                        _myGlobe.currentState.showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Please provide above information"),
                             duration: Duration(seconds: 2)));
                       }
                     },
-                    padding: const EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
@@ -161,7 +160,7 @@ class _FamilyState extends State<Family> {
     );
   }
 
-  Widget _living(BuildContext context,List<String>h){
+  Widget? _living(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -187,7 +186,7 @@ class _FamilyState extends State<Family> {
         });
   }
 
-  Widget _occupation(BuildContext context,List<String>h){
+  Widget? _occupation(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -213,7 +212,7 @@ class _FamilyState extends State<Family> {
           );
         });
   }
-  Widget _moccupation(BuildContext context,List<String>h){
+  Widget? _moccupation(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -239,7 +238,7 @@ class _FamilyState extends State<Family> {
           );
         });
   }
-  Widget _income(BuildContext context,List<dynamic>h){
+  Widget? _income(BuildContext context,List<dynamic>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -265,7 +264,7 @@ class _FamilyState extends State<Family> {
           );
         });
   }
-  Widget _bcount(BuildContext context,List<String>h){
+  Widget? _bcount(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -291,7 +290,7 @@ class _FamilyState extends State<Family> {
           );
         });
   }
-  Widget _ccount(BuildContext context,List<String>h){
+  Widget? _ccount(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {

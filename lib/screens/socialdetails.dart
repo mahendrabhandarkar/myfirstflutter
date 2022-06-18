@@ -16,13 +16,13 @@ class SocialDetails extends StatefulWidget {
 
 class _SocialDetailsState extends State<SocialDetails> {
 
-  String marital;
-  String mothertongue;
-  String religion;
-  String caste;
-  String horoscope;
-  String mangalik;
-  int cvalue;
+  late String marital;
+  late String mothertongue;
+  late String religion;
+  late String caste;
+  late String horoscope;
+  late String mangalik;
+  late int cvalue;
   final GlobalKey<ScaffoldState> _myGlobe = GlobalKey<ScaffoldState>();
   Future _upload()async{
     User user=await FirebaseAuth.instance.currentUser!;
@@ -38,7 +38,7 @@ class _SocialDetailsState extends State<SocialDetails> {
         'mothertoung':mothertongue,
         'horoscope':horoscope,
         'mangalik':mangalik,
-      },merge: true);
+      });
       Navigator.pop(context);
       if(widget.navigate==false){
         await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>AboutMe()));
@@ -47,9 +47,7 @@ class _SocialDetailsState extends State<SocialDetails> {
       }
 
     }catch(e){
-      _myGlobe.currentState.showSnackBar(SnackBar(
-          content: Text(e),
-          duration: Duration(seconds: 2)));
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(e.toString()), duration: Duration(milliseconds: 300), ), );
     }
   }
   @override
@@ -116,7 +114,7 @@ class _SocialDetailsState extends State<SocialDetails> {
                     });
 
                   }else{
-                    _myGlobe.currentState.showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text("Please provide above information"),
                         duration: Duration(seconds: 2)));
                   }
@@ -139,7 +137,7 @@ class _SocialDetailsState extends State<SocialDetails> {
       ]),
     );
   }
-  Widget _maritual(BuildContext context,List<String>h){
+  Widget? _maritual(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -158,7 +156,7 @@ class _SocialDetailsState extends State<SocialDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=int.parse(val.toString());
                           });
                         }),),
                       Divider()
@@ -169,7 +167,7 @@ class _SocialDetailsState extends State<SocialDetails> {
           );
         });
   }
-  Widget _mothertounge(BuildContext context,List<String>h){
+  Widget? _mothertounge(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -187,7 +185,7 @@ class _SocialDetailsState extends State<SocialDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=int.parse(val.toString());
                           });
                         }),),
                       Divider()
@@ -198,7 +196,7 @@ class _SocialDetailsState extends State<SocialDetails> {
           );
         });
   }
-  Widget _religion(BuildContext context,List<String>h){
+  Widget? _religion(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -217,7 +215,7 @@ class _SocialDetailsState extends State<SocialDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=int.parse(val.toString());
                           });
                         }),),
                       Divider()
@@ -228,7 +226,7 @@ class _SocialDetailsState extends State<SocialDetails> {
           );
         });
   }
-  Widget _cast(BuildContext context,List<String>h){
+  Widget? _cast(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -246,7 +244,7 @@ class _SocialDetailsState extends State<SocialDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=int.parse(val.toString());
                           });
                         }),),
                       Divider()
@@ -257,7 +255,7 @@ class _SocialDetailsState extends State<SocialDetails> {
           );
         });
   }
-  Widget _horoscope(BuildContext context,List<String>h){
+  Widget? _horoscope(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -276,7 +274,7 @@ class _SocialDetailsState extends State<SocialDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=int.parse(val.toString());
                           });
                         }),),
                       Divider()
@@ -287,7 +285,7 @@ class _SocialDetailsState extends State<SocialDetails> {
           );
         });
   }
-  Widget _mangalik(BuildContext context,List<String>h){
+  Widget? _mangalik(BuildContext context,List<String>h){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -306,7 +304,7 @@ class _SocialDetailsState extends State<SocialDetails> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=int.parse(val.toString());
                           });
                         }),),
                       Divider()

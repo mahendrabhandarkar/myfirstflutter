@@ -18,8 +18,8 @@ class RegisterOtp extends StatefulWidget {
 }
 
 class _RegisterOtpState extends State<RegisterOtp> {
-  String verifiid;
-  String _smsCode;
+  late String verifiid;
+  late String _smsCode;
   final GlobalKey<ScaffoldState> _myGlobe = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth=FirebaseAuth.instance;
 
@@ -46,7 +46,7 @@ class _RegisterOtpState extends State<RegisterOtp> {
             onChanged: (val){
               this._smsCode=val;
             },
-            decoration: BoxTightDecoration(textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20,),solidColor: Colors.white, strokeColor: Colors.black, radius: Radius.circular(12),),
+            decoration: BoxTightDecoration(textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20,), strokeColor: Colors.black, radius: Radius.circular(12),),
             autoFocus: true,
           ),
         ),
@@ -67,7 +67,7 @@ class _RegisterOtpState extends State<RegisterOtp> {
               if(_smsCode.length==6){
                 signIn();
               }else{
-                _myGlobe.currentState.showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Please provide a valid phone number"),
                     duration: Duration(seconds: 2)));
               }
@@ -97,19 +97,18 @@ class _RegisterOtpState extends State<RegisterOtp> {
         child: CircularProgressIndicator(backgroundColor: Colors.orange,),
       );
     }, barrierDismissible: false);
-    final AuthCredential credential = PhoneAuthProvider.getCredential(
-        verificationId: verifiid, smsCode: _smsCode);
+    final AuthCredential credential = PhoneAuthProvider.credential(verificationId: verifiid, smsCode: _smsCode);
     _signInWithCredential(credential);
     print(credential.providerId + "   ------    SIGNIN");
     
   }
   _signInWithCredential(AuthCredential credential) async {
-    User user;
+    User? user;
     try {
       final authRes = await _auth.signInWithCredential(credential);
       user = authRes.user;
     } catch (err) {
-      _myGlobe.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("You have entered wrong OTP"),
           duration: Duration(seconds: 2)));
     }
@@ -127,12 +126,12 @@ class _RegisterOtpState extends State<RegisterOtp> {
         Navigator.pop(context);
          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>PicUpload()));
       }).catchError((onError){
-        _myGlobe.currentState.showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(onError), duration: Duration(seconds: 2)));
       });
 
     } else {
-      _myGlobe.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Please try again!"), duration: Duration(seconds: 2)));
     }
   }
@@ -144,7 +143,7 @@ class _RegisterOtpState extends State<RegisterOtp> {
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
       this.verifiid = verId;
     };
-    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+    final PhoneCodeSent smsCodeSent = (String verId, int? forceCodeResend) {
       showDialog(context: context,builder: (context) {
         return Center(
           child: CircularProgressIndicator(backgroundColor: Colors.orange,),
@@ -160,8 +159,8 @@ class _RegisterOtpState extends State<RegisterOtp> {
     };
 
     final PhoneVerificationFailed verificationFailed =
-        (AuthException exception) {
-      _myGlobe.currentState.showSnackBar(SnackBar(
+        (FirebaseAuthException exception) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
               "Something went wrong, check your internet connection or verify phone number again!")));
       print('${exception.message}');
@@ -178,6 +177,6 @@ class _RegisterOtpState extends State<RegisterOtp> {
     setState(() {
 
     });
-    await Navigator.pop(context);
+    Navigator.pop(context);
   }
 }

@@ -20,7 +20,7 @@ class _LoginDetailsState extends State<LoginDetails> {
 
   Future _signUp()async{
     FirebaseAuth auth=FirebaseAuth.instance;
-    User user;
+    User? user;
     showDialog(context: context,builder: (context) {
       return Center(
         child: CircularProgressIndicator(backgroundColor: Colors.orange,),
@@ -28,14 +28,12 @@ class _LoginDetailsState extends State<LoginDetails> {
     }, barrierDismissible: false);
     await auth.createUserWithEmailAndPassword(email: mail.text, password: password.text).then((onValue){
       user=onValue.user;
-      print(user.uid);
+      print(user?.uid);
     }).catchError((onError){
       Navigator.pop(context);
-      _myGlobe.currentState.showSnackBar(SnackBar(
-          content: Text(onError),
-          duration: Duration(seconds: 2)));
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(onError), duration: Duration(milliseconds: 300), ), );
     }).whenComplete((){
-  _upload(user);
+  _upload(user!);
     });
   }
   Future _upload(User user)async{
@@ -53,8 +51,8 @@ class _LoginDetailsState extends State<LoginDetails> {
       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>AboutMe()));
     }catch(e){
       Navigator.pop(context);
-      _myGlobe.currentState.showSnackBar(SnackBar(
-          content: Text(e),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(e.toString()),
           duration: Duration(seconds: 2)));
     }
 
@@ -133,7 +131,7 @@ class _LoginDetailsState extends State<LoginDetails> {
                     if(name.text.length>4&&number.text.length>9&&mail.text.length>10&&password.text.length>8){
                       _signUp();
                     }else{
-                      _myGlobe.currentState.showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text("Please provide vaild details"),
                           duration: Duration(seconds: 2)));
                     }

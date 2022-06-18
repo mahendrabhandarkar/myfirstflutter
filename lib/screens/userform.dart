@@ -11,10 +11,10 @@ class UserForm extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserForm> {
-  String religion;
-  String cast;
-  String language;
-  int age;
+  late String religion;
+  late String cast;
+  late String language;
+  late int age;
   TextEditingController number=new TextEditingController();
   TextEditingController name=new TextEditingController();
   final GlobalKey<ScaffoldState> _myGlobe = GlobalKey<ScaffoldState>();
@@ -24,15 +24,15 @@ class _UserFormState extends State<UserForm> {
 
   String _phone = "";
   String _countryCode = "+91";
-  String _verificationId;
+  late String _verificationId;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future _phoneVerify()async{
     CollectionReference reference=FirebaseFirestore.instance.collection("Users");
-    QuerySnapshot querySnapshot=await reference.where('number',isEqualTo: number.text).getDocuments();
+    QuerySnapshot querySnapshot=await reference.where('number',isEqualTo: number.text).get();
     bool have=querySnapshot.docs.isNotEmpty;
     if(have==true){
-      _myGlobe.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('This number was already register!'),
           duration: Duration(seconds: 2)));
     }else{
@@ -67,7 +67,7 @@ class _UserFormState extends State<UserForm> {
           }
         });
       };
-      final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+      final PhoneCodeSent smsCodeSent = (String verId, int? forceCodeResend) {
         setState(() {
           this._verificationId = verId;
           if (_verificationId != null) {
@@ -108,8 +108,8 @@ class _UserFormState extends State<UserForm> {
         });
       };
       final PhoneVerificationFailed verificationFailed =
-          (AuthException exception) {
-        _myGlobe.currentState.showSnackBar(SnackBar(
+          (FirebaseAuthException exception) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
                 "Something went wrong, check your internet connection or verify phone number again!")));
         print('${exception.message}');
@@ -139,7 +139,8 @@ class _UserFormState extends State<UserForm> {
         }
       });
     }catch(e){
-      _myGlobe.currentState.showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(e.toString()), duration: Duration(milliseconds: 300), ), );
+    //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -163,7 +164,7 @@ class _UserFormState extends State<UserForm> {
                 style: TextStyle(color: Colors.deepPurple),
                 onChanged: (newValue) {
                   setState(() {
-                    religion = newValue;
+                    religion = newValue.toString();
                   });
                 },
                 items: Data().religion.map((f) {
@@ -185,7 +186,7 @@ class _UserFormState extends State<UserForm> {
                   style: TextStyle(color: Colors.deepPurple),
                   onChanged: (newValue) {
                     setState(() {
-                      cast = newValue;
+                      cast = newValue.toString();
                     });
                   },
                   items: Data().religion.map((f) {
@@ -207,7 +208,7 @@ class _UserFormState extends State<UserForm> {
                   style: TextStyle(color: Colors.deepPurple),
                   onChanged: (newValue) {
                     setState(() {
-                      language = newValue;
+                      language = newValue.toString();
                     });
                   },
                   items: Data().language.map((f) {
@@ -229,7 +230,7 @@ class _UserFormState extends State<UserForm> {
                   style: TextStyle(color: Colors.deepPurple),
                   onChanged: (newValue) {
                     setState(() {
-                       age= newValue;
+                       age= int.parse(newValue.toString());
                     });
                   },
                   items: Data().age.map((f) {
@@ -302,7 +303,7 @@ class _UserFormState extends State<UserForm> {
 
                 }
                 else{
-                  _myGlobe.currentState.showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("Please provide above information"),
                       duration: Duration(seconds: 2)));
                 }

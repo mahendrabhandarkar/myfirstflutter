@@ -130,7 +130,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       subtitle:income==null?Text("Rs.1 Lakh and above"):Text(income),
                       trailing: Icon(Icons.navigate_next,size: 45,color: Colors.black),
                   onTap: (){
-                    _income(context, Data().income);
+                    _income(context, Data().income as List<String>);
                   },),
                 ])),
         Positioned(top: MediaQuery.of(context).size.height*0.81,
@@ -179,7 +179,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -208,7 +208,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -238,7 +238,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -267,7 +267,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -297,7 +297,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: index, groupValue:cvalue, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -327,7 +327,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: index, groupValue:cvalue, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -357,7 +357,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -387,7 +387,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -417,7 +417,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -447,7 +447,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()
@@ -477,7 +477,7 @@ class _DesiredPartnerState extends State<DesiredPartner> {
                       },
                         trailing:Radio(value: cvalue, groupValue:index, onChanged: (val){
                           setState(() {
-                            cvalue=val;
+                            cvalue=val.toString() as int;
                           });
                         }),),
                       Divider()

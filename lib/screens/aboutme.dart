@@ -18,11 +18,11 @@ class _AboutMeState extends State<AboutMe> {
     CollectionReference reference=FirebaseFirestore.instance.collection("Users");
     try{
       reference.doc(user.uid).set({'about':about.text
-      },merge: true).whenComplete((){
+      }).whenComplete((){
         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>DesiredPartner(false)));
       });
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(e), duration: Duration(milliseconds: 300), ), );
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(e.toString()), duration: Duration(milliseconds: 300), ), );
     }
   }
   @override

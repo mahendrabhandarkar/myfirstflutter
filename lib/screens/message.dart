@@ -13,8 +13,8 @@ class Message extends StatefulWidget {
 
 class _MessageState extends State<Message> {
 
-  String mgs;
-  User user;
+  late String mgs;
+  User? user;
   TextEditingController message=TextEditingController();
   void _get()async{
     user=await FirebaseAuth.instance.currentUser!;
@@ -24,8 +24,8 @@ class _MessageState extends State<Message> {
   }
   Future _chat()async{
     CollectionReference reference=FirebaseFirestore.instance.collection('Message');
-    QuerySnapshot querySnapshot=await reference.doc(widget.id).collection('Chat').getDocuments();
-    return querySnapshot.documents;
+    QuerySnapshot querySnapshot=await reference.doc(widget.id).collection('Chat').get();
+    return querySnapshot.docs;
   }
   @override
   void initState() {
@@ -49,14 +49,14 @@ class _MessageState extends State<Message> {
             children: <Widget>[ 
               Expanded(flex: 9,
                 child: Container(width: MediaQuery.of(context).size.height,height: MediaQuery.of(context).size.height,
-                  child: ListView.builder(itemCount: snapshot.data.length,shrinkWrap: true,physics: BouncingScrollPhysics(),itemBuilder: (BuildContext context, int index) {
+                  child: ListView.builder(itemCount: snapshot.data.toString().length,shrinkWrap: true,physics: BouncingScrollPhysics(),itemBuilder: (BuildContext context, int index) {
                     return Column(
                       children: <Widget>[
-                        Container(width: MediaQuery.of(context).size.width,alignment:snapshot.data[index].data['sender']==user.uid?Alignment.centerRight:Alignment.centerLeft,
+                        Container(width: MediaQuery.of(context).size.width,alignment:(snapshot.data as Map)[index].data['sender']==user?.uid?Alignment.centerRight:Alignment.centerLeft,
                           child: Container(width: MediaQuery.of(context).size.width*0.6,child: Row(
                             children: <Widget>[
-                              Expanded(flex: 8,child: Text('${snapshot.data[index].data['mgs']}',style: TextStyle(color: Colors.white,fontSize: 16),)),
-                              Expanded(flex: 2,child: Text('${DateFormat("HH:mm").format(DateTime.fromMillisecondsSinceEpoch(int.parse(snapshot.data[index].data['time'].toString())))}',
+                              Expanded(flex: 8,child: Text('${(snapshot.data as Map)[index]?.data['mgs']}',style: TextStyle(color: Colors.white,fontSize: 16),)),
+                              Expanded(flex: 2,child: Text('${DateFormat("HH:mm").format(DateTime.fromMillisecondsSinceEpoch(int.parse((snapshot.data as Map)[index].data['time'].toString())))}',
                               style: TextStyle(fontSize: 12,color: Colors.white70),textAlign: TextAlign.end,))
                             ],
                           ),
@@ -103,7 +103,7 @@ class _MessageState extends State<Message> {
                     SizedBox(width: 4),
                     Expanded(child: GestureDetector(child: Text('Send'),
                     onTap: (){
-                      if(mgs.length>0&&user!=null){
+                      if(mgs.length > 0 &&user!=null){
                         setState(() {
                           message.text='';
                         });
@@ -122,7 +122,7 @@ class _MessageState extends State<Message> {
   Future _upload()async{
     var data={
       'mgs':mgs,
-      'sender':user.uid,
+      'sender':user?.uid,
       'time':DateTime.now().millisecondsSinceEpoch.toString()
     };
     CollectionReference reference=FirebaseFirestore.instance.collection('Message');
