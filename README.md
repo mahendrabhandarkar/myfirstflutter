@@ -1,10 +1,15 @@
+Run Flutter Code Offline
+https://unpkg.com/browse/canvaskit-wasm@0.35.0/bin/ '-- Download canvaskit files from here
+flutter run -d chrome --web-renderer=canvaskit --dart-define=FLUTTER_WEB_CANVASKIT_URL=http://localhost/custom-canvaskit-build/ 
+flutter run -d chrome --web-renderer=canvaskit --dart-define=FLUTTER_WEB_CANVASKIT_URL=/ --profile --dart-define=FLUTTER_WEB_DEBUG_SHOW_SEMANTICS=true 
+flutter run -d chrome --web-renderer=html '-- To run in HTML format we don't need canvaskit files
+
 # myfirstflutter
-Added
-A new Flutter project.
+Trying to create matri.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Trying my hands in flutter.
 
 A few resources to get you started if this is your first Flutter project:
 
@@ -14,3 +19,4 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
