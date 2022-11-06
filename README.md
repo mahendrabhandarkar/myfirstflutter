@@ -1,4 +1,4 @@
-Run Flutter Code Offline
+Run Flutter Code Offline 
 https://unpkg.com/browse/canvaskit-wasm@0.35.0/bin/ '-- Download canvaskit files from here
 flutter run -d chrome --web-renderer=canvaskit --dart-define=FLUTTER_WEB_CANVASKIT_URL=http://localhost/custom-canvaskit-build/ 
 flutter run -d chrome --web-renderer=canvaskit --dart-define=FLUTTER_WEB_CANVASKIT_URL=/ --profile --dart-define=FLUTTER_WEB_DEBUG_SHOW_SEMANTICS=true 
