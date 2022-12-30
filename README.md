@@ -11,6 +11,14 @@ Trying to create matri.
 
 Trying my hands in flutter.
 
+## command to create web / apk build
+flutter build apk --split-per-abi --obfuscate --split-debug-info=/build
+flutter build web --web-renderer html --release --base-href /webportal/
+
+## coding
+https://github.com/rostomides/T2T - Clone of a marriage matching website
+https://github.com/razarehan/tamil_matrimony_clone/tree/master/src/app
+
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
