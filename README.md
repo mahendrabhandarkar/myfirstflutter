@@ -19,6 +19,8 @@ flutter build web --web-renderer html --release --base-href /webportal/
 https://github.com/rostomides/T2T - Clone of a marriage matching website
 https://github.com/razarehan/tamil_matrimony_clone/tree/master/src/app
 
+https://github.com/imshibaji/flutter_clean_architecture - https://www.youtube.com/watch?v=hHOf98bZ2p4 <br />
+
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
