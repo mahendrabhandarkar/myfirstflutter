@@ -21,6 +21,8 @@ https://github.com/razarehan/tamil_matrimony_clone/tree/master/src/app
 
 https://github.com/imshibaji/flutter_clean_architecture - https://www.youtube.com/watch?v=hHOf98bZ2p4 <br />
 
+https://github.com/18BCS4527/Matrimony-Application-/tree/master --- Matrimonial Application Code <br />
+
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
